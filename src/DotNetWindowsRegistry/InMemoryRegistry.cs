@@ -10,13 +10,15 @@ namespace DotNetWindowsRegistry
     /// The In-Memory registry implements <see cref="IRegistry"/> with a simple in-memory structure.
     /// It is designed to support testing scenarios.
     ///
-    /// TODO: A better string format for testing might be the *.reg file format:
+    /// Note: A better string format for testing might be the *.reg file format:
     /// https://support.microsoft.com/en-us/help/310516/how-to-add-modify-or-delete-registry-subkeys-and-values-by-using-a-reg
     /// </summary>
     /// <seealso cref="IRegistry" />
     public class InMemoryRegistry : IRegistry
     {
         private readonly Dictionary<Tuple<RegistryView, RegistryHive>, InMemoryRegistryKey> _rootKeys = new Dictionary<Tuple<RegistryView, RegistryHive>, InMemoryRegistryKey>();
+
+        private const int IndentSpaces = 2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InMemoryRegistry"/> class.
@@ -76,10 +78,10 @@ namespace DotNetWindowsRegistry
                 //  Skip empty lines.
                 if (string.IsNullOrEmpty(line)) continue;
 
-                //  Get the depth of the line, which is indented by sets of three spaces.
+                //  Get the depth of the line, which is indented by sets of spaces.
                 var spaces = Spaces(line);
-                if (spaces % 3 != 0) throw new InvalidOperationException($@"Line {lineNum + 1}: Line starts with {spaces} spaces. Lines should start with spaces which are a multiple of three.");
-                var depth = spaces / 3;
+                if ((spaces % IndentSpaces) != 0) throw new InvalidOperationException($@"Line {lineNum}: Invalid indentation. Line starts with {spaces} spaces. Lines should start with a number of spaces which is a multiple of {IndentSpaces}.");
+                var depth = spaces / IndentSpaces;
 
                 //  Pop the stack if we need to.
                 while (depth < keyStack.Count) keyStack.Pop();
@@ -89,7 +91,7 @@ namespace DotNetWindowsRegistry
                 {
                     //  Load the hive.
                     var hive = _rootKeys.Where(kv => kv.Key.Item1 == registryView && kv.Value.Name == line).Select(kvp => kvp.Value).FirstOrDefault();
-                    if (hive == null) throw new InvalidOperationException($@"Line ${lineNum + 1}: {line} is not a known registry hive key.");
+                    if (hive == null) throw new InvalidOperationException($@"Line {lineNum}: {line} is not a known registry hive key.");
                     keyStack.Push(hive);
                     continue;
                 }
@@ -118,7 +120,7 @@ namespace DotNetWindowsRegistry
                 }
 
                 //  If we get here, we've got a malformed file.
-                throw new InvalidOperationException($@"Line {lineNum + 1}: This line it at an invalid depth.");
+                throw new InvalidOperationException($@"Line {lineNum}: This line is at an invalid depth.");
             }
         }
 
@@ -130,7 +132,7 @@ namespace DotNetWindowsRegistry
         /// <returns>The key, printed at the given depth.</returns>
         private static string PrintKey(IRegistryKey key, int depth)
         {
-            var indent = new string(' ', depth * 3);
+            var indent = new string(' ', depth * IndentSpaces);
 
             //  Get the value strings.
             var values = key.GetValueNames()
