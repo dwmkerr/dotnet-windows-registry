@@ -9,12 +9,12 @@ This module is particularly useful if you want to be able to test code which wor
 <!-- vim-markdown-toc GFM -->
 
 * [Quick Start](#quick-start)
-    * [Testing Registry Operations](#testing-registry-operations)
     * [Using the IRegistry Classes](#using-the-iregistry-classes)
     * [Quick Start - Castle Windsor](#quick-start---castle-windsor)
 * [Developer Guide](#developer-guide)
 * [Creating a Release](#creating-a-release)
 * [Essential Reading](#essential-reading)
+* [Compatibility, Format and Potential Changes](#compatibility-format-and-potential-changes)
 
 <!-- vim-markdown-toc -->
 
