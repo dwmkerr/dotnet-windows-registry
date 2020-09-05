@@ -1,0 +1,43 @@
+image: Visual Studio 2019
+
+# Cache chocolatey packages and Nuget packages. Nuget package cache is invalidated
+# on any change to a project file, the choco cache on any change to the config
+# nuget file.
+cache:
+- ./src/packages -> **/*.csproj
+- C:/ProgramData/chocolatey/bin -> ./src/init.ps1
+- C:/ProgramData/chocolatey/lib -> ./src/init.ps1
+
+# Before building install dependencies for the build.
+before_build:
+- ps: ./src/init.ps1
+
+build_script:
+- ps: dotnet build ./src/DotNetWindowsRegistry.sln -c Release
+
+test_script: 
+- ps: ./src/coverage.ps1
+
+after_test:
+- ps: dotnet pack ./src/DotNetWindowsRegistry.sln -c Release
+
+artifacts:
+- path: './src/**/bin/Release/**/*.nupkg'
+  name: NuGetPackages
+- path: './artifacts/coverage'
+  name: Coverage
+  
+# Deploy to GitHub and NuGet when we push a version tag.
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: KTWUORrnJKPKLSf/3ROLY50T9UfgTMnKHf3OjBOv8tlY/DAxtlglRU3eM+j45fMt
+  artifact: /.*(\.|\.s)nupkg/
+  on:
+    APPVEYOR_REPO_TAG: true
+- provider: NuGet
+  api_key:
+    secure: TWio+nDN8Ew7+OH7J3tLcEoM6DmxrIwfAr+2Ag8ROWJUEnXyoSAZ/I1GxBgB0qMd
+  artifact: /.*(\.|\.s)nupkg/
+  on:
+    APPVEYOR_REPO_TAG: true

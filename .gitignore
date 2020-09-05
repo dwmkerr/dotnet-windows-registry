@@ -1,0 +1,34 @@
+ignore build outputs
+[B|b]in
+[O|o]bj
+build/*
+
+#ignore managed external libs
+packages
+paket-files
+
+*.suo
+*.userprefs
+*~
+\#*\#
+*.pidb
+
+*.DS_Store
+*.csproj.user
+*.nupkg
+*.old
+StyleCop.Cache
+.paket/paket.exe
+.fake
+*.cache
+docs/output/*
+artifacts/*
+*.xproj.user
+*.nuget.targets
+*.lock.json
+*.nuget.props
+*.DotSettings.user
+*.vs/
+*TestResults/
+
+[R|r]elease/** 

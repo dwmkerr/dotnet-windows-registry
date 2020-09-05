@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;net40;net45;net472;netstandard2.0</TargetFrameworks>
+
+    <!-- The following properies are used to manage how the project is packaged. -->
+    <PackageId>DotNetWindowsRegsitry</PackageId>
+    <Copyright>Copyright (c) Dave Kerr 2020</Copyright>
+    <PackageProjectUrl>https://github.com/dwmkerr/dotnet-windows-registry</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dwmkerr/dotnet-windows-registry</RepositoryUrl>
+    <Version>0.1.0-alpha1</Version>
+    <Authors>Dave Kerr</Authors>
+    <Company>Dave Kerr</Company>
+    <PackageTags>DotNet;Windows;Registry</PackageTags>
+    <Description>The DotNetWindowsRegistry package is a wrapper around the Microsoft.Win32.Registry which provides unit testing capabilities.</Description>
+  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--We use Microsoft.Win32.Registry in our IRegistry interface. For .NET Core and later versions of the framework, this is
+    in the Microsoft.Win32.Registry package. For earlier versions of the Framework, it is built in. -->
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'net472'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netcoreapp2.0'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netcoreapp3.0'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="4.7.2" Condition="'$(TargetFramework)' == 'net472'" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="4.7.2" Condition="'$(TargetFramework)' == 'netcoreapp2.0'" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="4.7.2" Condition="'$(TargetFramework)' == 'netcoreapp3.0'" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="4.7.2" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="4.7.2" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+  </ItemGroup>
+</Project>
