@@ -6,6 +6,7 @@
     <!-- The following properies are used to manage how the project is packaged. -->
     <PackageId>DotNetWindowsRegsitry</PackageId>
     <Copyright>Copyright (c) Dave Kerr 2020</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/dwmkerr/dotnet-windows-registry</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dwmkerr/dotnet-windows-registry</RepositoryUrl>
     <Version>0.1.0-alpha1</Version>
