@@ -112,7 +112,7 @@ public class MyClass
     public void Function()
     {
         //  e.g.
-        _regsitry.CreateKey();
+        _registry.CreateKey();
     }
 
     private IRegsitry _registry;
