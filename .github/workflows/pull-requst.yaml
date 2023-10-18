@@ -45,8 +45,8 @@ jobs:
       with:
         name: artifacts
         path: |
-          './src/**/bin/Release/**/*.nupkg'
-          './artifacts/coverage'
+          './src/**/bin/release/*.nupkg'
+          '../artifacts/coverage'
 
     # Now that we know the build runs, create a release PR if needed.
     - uses: google-github-actions/release-please-action@v3
