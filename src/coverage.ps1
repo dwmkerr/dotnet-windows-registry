@@ -1,11 +1,20 @@
-# Run the tests, generating the coverage report.
-dotnet test --collect:"XPlat Code Coverage" "$PSScriptRoot/DotNetWindowsRegistry.sln"
+# Define the location of the xml report and html report.
+$coverageDir = "$PSScriptRoot\artifacts\coverage" 
+$coverageReport = "$coverageDir\coverage.xml"
 
-# Create a local HTML report, copy over the xml report.
-$coverageArtifacts = "$PSScriptRoot/../artifacts/coverage" 
-$coverageReportsGlob = "$PSScriptRoot/*.Tests/TestResults/**/coverage.cobertura.xml"
-reportgenerator "-reports:$coverageReportsGlob" "-targetdir:$coverageArtifacts/html"
-Copy-Item "$coverageReportsGlob" "$coverageArtifacts"
+# Get the set of test assemblies and the work folder.
+$testAssemblies = Get-ChildItem -Include *.Tests.dll -Recurse | Where-Object {$_.FullName -like "*bin\Release*"}
+$workArgs = "$PSScriptRoot\artifacts\tests"
+
+# Create an artifacts directory create the command to build the report.
+New-Item -ItemType Directory -Force -Path "$PSScriptRoot\artifacts\coverage"
+$command = "OpenCover.Console.exe -target:nunit3-console.exe -targetargs:`"$testAssemblies --work=$workArgs`" -register:user -output:$coverageReport"
+Write-Host "Running: `"$command`""
+Invoke-Expression $command
+
+# Create a local report.
+reportgenerator "-reports:$coverageReport" "-targetdir:$coverageDir\html"
 
 # Upload the report to codecov. The CODECOV_TOKEN env var must be set.
-codecov -f "$coverageArtifacts/coverage.cobertura.xml"
+codecov -f "$coverageReport"
+
