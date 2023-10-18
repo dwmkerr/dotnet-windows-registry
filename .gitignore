@@ -23,6 +23,7 @@ StyleCop.Cache
 *.cache
 docs/output/*
 artifacts/*
+src/artifacts/*
 *.xproj.user
 *.nuget.targets
 *.lock.json
