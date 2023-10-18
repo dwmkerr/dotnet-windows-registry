@@ -4,7 +4,7 @@
     <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;net40;net45;net472;netstandard2.0</TargetFrameworks>
 
     <!-- The following properies are used to manage how the project is packaged. -->
-    <PackageId>DotNetWindowsRegsitry</PackageId>
+    <PackageId>DotNetWindowsRegistry</PackageId>
     <Copyright>Copyright (c) Dave Kerr 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/dwmkerr/dotnet-windows-registry</PackageProjectUrl>
