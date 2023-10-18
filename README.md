@@ -1,6 +1,6 @@
 # dotnet-windows-registry
 
-[![main](https://github.com/dwmkerr/dotnet-windows-registry/actions/workflows/main.yaml/badge.svg)](https://github.com/dwmkerr/dotnet-windows-registry/actions/workflows/main.yaml) [![codecov](https://codecov.io/gh/dwmkerr/dotnet-windows-registry/branch/master/graph/badge.svg)](https://codecov.io/gh/dwmkerr/dotnet-windows-registry) [![NuGet Package](https://img.shields.io/nuget/v/DotNetWindowsRegistry)](https://www.nuget.org/packages/DotNetWindowsRegsitry)
+[![main](https://github.com/dwmkerr/dotnet-windows-registry/actions/workflows/main.yaml/badge.svg)](https://github.com/dwmkerr/dotnet-windows-registry/actions/workflows/main.yaml) [![codecov](https://codecov.io/gh/dwmkerr/dotnet-windows-registry/branch/master/graph/badge.svg)](https://codecov.io/gh/dwmkerr/dotnet-windows-registry) [![NuGet Package](https://img.shields.io/nuget/v/DotNetWindowsRegistry)](https://www.nuget.org/packages/DotNetWindowsRegistry)
 
 The `DotNetWindowsRegistry` package provides a simple, unit and integration test friendly wrapper around the Windows Registry, which is 100% compliant with the existing `Microsoft.Win32.Registry` package.
 
