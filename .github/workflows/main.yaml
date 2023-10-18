@@ -45,8 +45,8 @@ jobs:
       with:
         name: artifacts
         path: |
-          './src/**/bin/Release/**/*.nupkg'
-          './artifacts/coverage'
+          './src/**/bin/Release/*.nupkg'
+          '../artifacts/coverage'
 
     # Now that we know the build runs, create a release PR if needed.
     - uses: google-github-actions/release-please-action@v3
@@ -59,6 +59,6 @@ jobs:
     # If we are building a release (i.e. we've merged from release-please) then
     # we can deploy.
     - name: Publish
-      run: dotnet nuget push ./src/**/bin/Release/**/*.nupkg --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_API_KEY}}
+      run: dotnet nuget push ./src/**/bin/Release/*.nupkg --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_API_KEY}}
       shell: bash # bash for globs in commmand above...
       if: ${{ steps.release.outputs.release_created }}
