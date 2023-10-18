@@ -1,0 +1,64 @@
+# The 'main' workflow is used to create the 'Release Please' pull
+# request. This PR is opened when we have a new commit to main.
+# See:
+#   https://github.com/googleapis/release-please
+name: main
+on:
+  push:
+    branches:
+      - main
+jobs:
+  main:
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: 17.3
+        msbuild-architecture: x64
+
+    # Before building, restore Nuget packages and install dependencies.
+    - name: Install Dependencies
+      run: |
+        ./src/init.ps1
+
+    # Use our own build script as it hides some unneeded warnings.
+    - name: Build
+      run: |
+        dotnet build ./src/DotNetWindowsRegistry.sln -c Release
+
+    # Test and upload coverage reports.
+    - name: Test
+      run: |
+        ./src/coverage.ps1
+    - name: Pack
+      run: |
+        dotnet pack ./src/DotNetWindowsRegistry.sln -c Release
+
+    # Upload the artifacts folder.
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifacts
+        path: |
+          './src/**/bin/Release/**/*.nupkg'
+          './artifacts/coverage'
+
+    # Now that we know the build runs, create a release PR if needed.
+    - uses: google-github-actions/release-please-action@v3
+      id: release
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        release-type: simple
+        package-name: DotNetWindowsRegistry
+
+    # If we are building a release (i.e. we've merged from release-please) then
+    # we can deploy.
+    - name: Publish
+      run: dotnet nuget push ./src/**/bin/Release/**/*.nupkg --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_API_KEY}}
+      shell: bash # bash for globs in commmand above...
+      if: ${{ steps.release.outputs.release_created }}
